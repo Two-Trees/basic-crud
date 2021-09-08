@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "lowdb": "^2.1.0",
+    "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "uuid": "^8.3.2"
   }
