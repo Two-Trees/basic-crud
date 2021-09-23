@@ -2,7 +2,7 @@
   "name": "basic-crud",
   "version": "2.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "lowdb": "^2.1.0",
+    "mongoose": "^6.0.7",
     "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "uuid": "^8.3.2"

@@ -1,35 +1,54 @@
-import express from 'express'
-import path from 'path'; 
-import { Low, JSONFile } from 'lowdb'; 
+import express from 'express';
+import Gif from '../models/Gif.js'
 
-import { v4 as uuidv4 } from 'uuid';
+const gifRouter = express.Router(); 
 
-const file = path.join(path.resolve(), 'db.json')
-const adapter = new JSONFile(file)
-const db = new Low(adapter)
-
-await db.read(); 
-
-const router = express.Router(); 
-
-router.get('/', (req, res) => {
-    res.send(db.data.gifs)
-})
-router.post('/', (req, res) => {
-   db.data.gifs.push({id: uuidv4(), url: 'some string'})
-   db.write()
-   res.send('gif added')
-})
-router.put('/:id/', (req, res) => {
-   const itemToUpdate = db.data.gifs.find((gif) => gif.id === req.params.id);
-   itemToUpdate.url = req.body.url; 
-   db.write();
-   res.send(`item updated: ${req.params.id}`)
-})
-router.delete('/:id', (req, res) => {
-    db.data.gifs = db.data.gifs.filter((gifs) => gifs.id !== req.params.id)
-    db.write(); 
-    res.send(`removed id: ${req.params.id}`)
+gifRouter.get('/', (req, res) => {
+    console.log(req.user)
+    Gif.find({user: req.user.id}, (err, gifs) => {
+        if (err) {
+            console.log(err)
+            res.send("error!")
+        } else {
+            console.log(gifs)
+            res.send(gifs)
+        }
+    })
 })
 
-export default router;
+gifRouter.post('/', (req, res) => {
+    Gif.create({ user: req.user.id, url: req.body.url }, (err, gif) => {
+        if(err) {
+            console.log(err); 
+            res.send('error')
+        } else {
+            res.send('success')
+        }
+    })
+})
+
+gifRouter.put('/:id/', (req, res) => {
+    Gif.findByIdAndUpdate(req.params.id, {url: req.body.url}, (err, result) => {
+        if(err) {
+            console.log(err); 
+            res.send('error')
+        } else {
+            console.log("updated url:", req.body.url)
+            res.send('success')
+        }
+    })
+})
+
+gifRouter.delete('/:id', (req, res) => {
+    Gif.findByIdAndDelete(req.params.id, {url: req.body.url}, (err, result) => {
+        if(err) {
+            console.log(err); 
+            res.send('error')
+        } else {
+            console.log("Deleted url:", req.body.url)
+            res.send('success')
+        }
+    })
+})
+
+export default gifRouter;
