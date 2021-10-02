@@ -10,4 +10,4 @@ services:
 
       ["3001:3001"]
 
-    command: node index.js
+    command: node app.js
