@@ -6,7 +6,7 @@ import authRouter from './routes/auth.js'
 
 const accessTokenSecret = 'somerandomaccesstoken';
 
-mongoose.connect('mongodb+srv://Two-Trees:vorplesword@cluster0.g2rte.mongodb.net/gifs-library?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://######################################')
 console.log("connected to MongoDB")
 
 const authenticateJWT = (req, res, next) => {
